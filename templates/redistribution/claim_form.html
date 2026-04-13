@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Claim Food - AgriFoodHub{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center pt-5">
+    <div class="col-md-5">
+        <div class="card shadow border-0">
+            <div class="card-body p-4">
+                <h4 class="fw-bold mb-4">Request Surplus</h4>
+                <div class="p-3 bg-light rounded mb-4">
+                    <div class="small text-muted">Claiming:</div>
+                    <div class="fw-bold fs-5">{{ listing.title }}</div>
+                    <div class="small fw-bold text-orange mt-1">{{ listing.quantity }} {{ listing.unit }} available</div>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small">How much do you need?</label>
+                        {{ form.quantity_requested }}
+                        <div class="form-text">Cannot exceed {{ listing.quantity }} {{ listing.unit }}.</div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small">Message to lister (Optional)</label>
+                        {{ form.message }}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-orange btn-lg w-100 py-3 shadow">Submit Request</button>
+                    <a href="{% url 'listing_detail' pk=listing.pk %}" class="btn btn-link w-100 mt-2 text-decoration-none small text-muted">Nevermind, go back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

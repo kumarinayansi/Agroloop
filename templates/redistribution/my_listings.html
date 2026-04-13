@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}My Food Listings - AgriFoodHub{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 pt-3">
+    <h2>Managed Surplus</h2>
+    <a href="{% url 'listing_create' %}" class="btn btn-orange">List More Food</a>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Item</th>
+                        <th>Status</th>
+                        <th>Claims</th>
+                        <th>Expiry</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for listing in listings %}
+                    <tr>
+                        <td><strong>{{ listing.title }}</strong><br><small class="text-muted">{{ listing.food_type }}</small></td>
+                        <td><span class="badge {% if listing.status == 'AVAILABLE' %}bg-success{% else %}bg-secondary{% endif %}">{{ listing.status }}</span></td>
+                        <td><span class="badge bg-light text-dark border">{{ listing.claims.count }}</span></td>
+                        <td>{{ listing.expiry_window|date:"M d, H:i" }}</td>
+                        <td>
+                            <a href="{% url 'listing_detail' pk=listing.pk %}" class="btn btn-sm btn-outline-dark">Manage</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center py-5 text-muted">You haven't listed any surplus food yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

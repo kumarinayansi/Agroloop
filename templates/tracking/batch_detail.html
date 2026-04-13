@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ batch.crop_name }} - Journey Tracker{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* High-Fidelity Stepper Styling */
+    .stepper-vertical { position: relative; list-style: none; padding-left: 50px; }
+    .stepper-vertical::before {
+        content: '';
+        position: absolute;
+        top: 0; bottom: 0; left: 19px;
+        width: 3px;
+        background: #e9ecef;
+    }
+    .stepper-item { position: relative; margin-bottom: 2.5rem; }
+    .stepper-item::before {
+        content: '';
+        position: absolute;
+        top: 5px; left: -31px;
+        width: 15px; height: 15px;
+        border-radius: 50%;
+        background: #adb5bd;
+        z-index: 10;
+        border: 4px solid white;
+        transition: all 0.3s ease;
+    }
+    .stepper-item.active::before { background: #198754; transform: scale(1.5); box-shadow: 0 0 0 5px rgba(25, 135, 84, 0.2); }
+    .stepper-item.completed::before { background: #198754; }
+    .stepper-item.completed .stepper-content { opacity: 0.8; }
+    .stepper-title { font-weight: 800; font-size: 1.1rem; color: #212529; margin-bottom: 0.25rem; }
+    .stepper-desc { font-size: 0.9rem; color: #6c757d; line-height: 1.4; }
+    
+    .qr-card {
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        border: 2px dashed #dee2e6;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="pt-3 pb-4">
+    <div class="d-flex align-items-center gap-2 mb-2">
+        <a href="{% url 'batch_list' %}" class="btn btn-sm btn-light rounded-circle"><i class="bi bi-arrow-left"></i></a>
+        <span class="text-muted small">Tracking / {{ batch.crop_name }}</span>
+    </div>
+    <h1 class="fw-black h2">{{ batch.crop_name }} <span class="text-muted fw-normal opacity-50">#{{ batch.batch_id|stringformat:"s"|slice:":8" }}</span></h1>
+</div>
+
+<div class="row g-4">
+    <!-- Left Column: The Journey Stepper -->
+    <div class="col-lg-7">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h5 class="fw-bold mb-0">Supply Chain Journey</h5>
+                <p class="text-muted small">Real-time transparency from the seed to your table.</p>
+            </div>
+            <div class="card-body p-4">
+                <div class="stepper-vertical">
+                    <!-- Stage 1: Harvested -->
+                    <div class="stepper-item completed active">
+                        <div class="stepper-content">
+                            <div class="stepper-title">Harvested & Logged</div>
+                            <div class="stepper-desc">Farmer {{ batch.farmer.username }} confirmed harvest. Quality check passed.</div>
+                            <div class="mt-2 badge bg-success-subtle text-success border border-success-subtle">{{ batch.harvest_date }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 2: In Transit -->
+                    <div class="stepper-item {% if batch.current_status != 'HARVESTED' %}completed active{% endif %}">
+                        <div class="stepper-content">
+                            <div class="stepper-title">In Transit</div>
+                            <div class="stepper-desc">Logistic partner dispatch. GPS-tracked shipment in progress.</div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 3: Warehouse -->
+                    <div class="stepper-item {% if batch.current_status == 'AT_WAREHOUSE' or batch.current_status == 'AT_MARKET' or batch.current_status == 'SOLD' %}completed active{% endif %}">
+                        <div class="stepper-content">
+                            <div class="stepper-title">Central Warehouse</div>
+                            <div class="stepper-desc">Arrived at redistribution hub. Temperature-controlled storage storage.</div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 4: Retail -->
+                    <div class="stepper-item {% if batch.current_status == 'AT_MARKET' or batch.current_status == 'SOLD' %}completed active{% endif %}">
+                        <div class="stepper-content">
+                            <div class="stepper-title">Retail Ready</div>
+                            <div class="stepper-desc">Available at {{ batch.variety|default:"Local Market" }}. Ready for Scan & Buy.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Digital Twin & QR -->
+    <div class="col-lg-5">
+        <div class="card shadow-sm border-0 mb-4 qr-card">
+            <div class="card-body p-5 text-center">
+                <div class="mb-4">
+                    <div class="badge bg-dark text-white p-2 px-3 rounded-pill small mb-3">DIGITAL TWIN READY</div>
+                    <h5 class="fw-bold">Generate Digital Label</h5>
+                    <p class="text-muted small">Create a physical-to-digital bridge for this batch.</p>
+                </div>
+
+                <div class="p-4 bg-white rounded-4 shadow-sm inline-block mb-4 border">
+                    {% if batch.qr_code %}
+                        <img src="{{ batch.qr_code.url }}" class="img-fluid" alt="Batch QR Code" style="max-height: 250px;">
+                    {% else %}
+                        <div class="py-5 px-4 text-muted small">QR Generation Pending...</div>
+                    {% endif %}
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="{% url 'generate_qr' batch_id=batch.batch_id %}" target="_blank" class="btn btn-dark btn-lg py-3 rounded-3 fw-bold">
+                        <i class="bi bi-printer me-2"></i> Print Traceability Label
+                    </a>
+                </div>
+                
+                <div class="mt-4 pt-3 border-top small text-muted">
+                    <i class="bi bi-shield-check text-success"></i> Blockchain-verified batch identity
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Log Feed -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white pt-4 px-4 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">System Logs</h5>
+                <a href="{% url 'add_journey_log' batch_id=batch.batch_id %}" class="btn btn-sm btn-outline-success rounded-pill px-3">+ Add Entry</a>
+            </div>
+            <div class="card-body p-4">
+                {% if logs %}
+                    {% for log in logs %}
+                    <div class="d-flex gap-3 mb-4">
+                        <div class="text-success pt-1"><i class="bi bi-check-circle-fill"></i></div>
+                        <div>
+                            <div class="fw-bold small">{{ log.get_status_display }}</div>
+                            <div class="text-muted tiny">@ {{ log.location }} • {{ log.timestamp|date:"M d, H:i" }}</div>
+                            {% if log.notes %}
+                            <div class="mt-1 small bg-light p-2 rounded">{{ log.notes }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-4 text-muted small italic">Initialize journey to see system logs.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}List Surplus Food - AgriFoodHub{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center pt-4">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-orange text-white py-3">
+                <h4 class="mb-0 fw-bold">Share Surplus Food</h4>
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted mb-4">Provide accurate details about the food surplus you wish to redistribute.</p>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-bold small">{{ form.title.label }}</label>
+                            {{ form.title }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">{{ form.food_type.label }}</label>
+                            {{ form.food_type }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Pick-up Deadline</label>
+                            {{ form.expiry_window }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Quantity</label>
+                            <div class="input-group">
+                                {{ form.quantity }}
+                                <span class="input-group-text">{{ form.unit }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small">Unit (kg/lt/boxes)</label>
+                            {{ form.unit }}
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-bold small">Location / Address</label>
+                            {{ form.location }}
+                        </div>
+                         <div class="col-12 mb-3">
+                            <label class="form-label fw-bold small">Photos</label>
+                            {{ form.image }}
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-bold small">Additional Instructions</label>
+                            {{ form.description }}
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-3 border-top d-flex gap-2">
+                        <button type="submit" class="btn btn-orange btn-lg px-5">Publish Listing</button>
+                        <a href="{% url 'listing_list' %}" class="btn btn-light btn-lg px-4">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

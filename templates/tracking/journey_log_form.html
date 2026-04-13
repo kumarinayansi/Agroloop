@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Checkpoint - Tracking{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center pt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">Add Journey Log</h4>
+            </div>
+            <div class="card-body">
+                <div class="p-3 bg-light rounded mb-4">
+                    <div class="small text-muted">Tracking Batch:</div>
+                    <div class="fw-bold">{{ batch.crop_name }}</div>
+                    <code class="small">{{ batch.batch_id }}</code>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="text-danger small">{{ field.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    
+                    <button type="submit" class="btn btn-success w-100 py-2">Log Checkpoint</button>
+                    <a href="{% url 'batch_detail' batch_id=batch.batch_id %}" class="btn btn-link w-100 small text-decoration-none">Back to Journey</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

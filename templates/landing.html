@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriLoop - Sustainable Food & Farming Ecosystem</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            farm: {
+              light: '#f4fbf4',
+              DEFAULT: '#e0f2e0',
+              dark: '#166534',
+              accent: '#22c55e',
+            },
+            earth: {
+              light: '#faf7f2',
+              DEFAULT: '#e6ded3',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+    .glassmorphism {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(22, 101, 52, 0.1);
+    }
+    .hero-gradient {
+      background: radial-gradient(circle at top right, rgba(34, 197, 94, 0.1), transparent);
+    }
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px -10px rgba(22, 101, 52, 0.15);
+    }
+  </style>
+</head>
+<body class="bg-white text-slate-800 antialiased overflow-x-hidden">
+  
+  <!-- Navigation -->
+  <header class="fixed top-0 w-full z-50 glassmorphism transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-farm-dark rounded-xl flex items-center justify-center shadow-lg shadow-farm-dark/20">
+          <i data-lucide="leaf" class="text-white w-6 h-6"></i>
+        </div>
+        <span class="text-2xl font-bold text-farm-dark tracking-tight">AgriLoop</span>
+      </div>
+      
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#features" class="text-sm font-semibold hover:text-farm-accent transition-colors">Features</a>
+        <a href="#how-it-works" class="text-sm font-semibold hover:text-farm-accent transition-colors">How it Works</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'dashboard' %}" class="px-6 py-2.5 bg-farm-dark text-white rounded-full text-sm font-bold shadow-md hover:bg-farm-dark/90 transition-all flex items-center gap-2">
+             Go to Dashboard <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        {% else %}
+          <a href="{% url 'login' %}" class="px-6 py-2.5 bg-farm-dark text-white rounded-full text-sm font-bold shadow-md hover:bg-farm-dark/90 transition-all flex items-center gap-2">
+            Login / Sign Up <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button class="md:hidden text-farm-dark">
+        <i data-lucide="menu" class="w-8 h-8"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 hero-gradient overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="relative z-10 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-farm-light border border-farm text-farm-dark text-xs font-bold mb-6 tracking-wide uppercase">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-farm-accent opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-farm-accent"></span>
+                    </span>
+                    Empowering Sustainable Food Cycles
+                </div>
+                <h2 class="text-5xl md:text-7xl font-black text-farm-dark leading-[1.1] mb-6">
+                    Connecting <span class="text-farm-accent underline decoration-earth">Agri</span> to the <span class="text-slate-900 italic">Loop</span>
+                </h2>
+                <p class="text-lg md:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed">
+                    Revolutionizing food sustainability by connecting farmers, retailers, and consumers in a seamless, zero-waste ecosystem. 
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="px-8 py-4 bg-farm-dark text-white rounded-2xl text-lg font-bold shadow-xl shadow-farm-dark/20 hover:scale-105 active:scale-95 transition-all text-center">
+                        Go to Dashboard →
+                    </a>
+                    {% else %}
+                    <a href="{% url 'register' %}" class="px-8 py-4 bg-farm-dark text-white rounded-2xl text-lg font-bold shadow-xl shadow-farm-dark/20 hover:scale-105 active:scale-95 transition-all text-center">
+                        Get Started Free
+                    </a>
+                    <a href="{% url 'login' %}" class="px-8 py-4 bg-white border border-earth text-slate-700 rounded-2xl text-lg font-bold hover:bg-farm-light transition-all text-center">
+                        Sign In
+                    </a>
+                    {% endif %}
+                    <a href="#how-it-works" class="px-8 py-4 border border-earth text-slate-700 rounded-2xl text-lg font-bold hover:bg-farm-light transition-all text-center">
+                        Our Mission
+                    </a>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="absolute -top-12 -right-12 w-64 h-64 bg-farm-accent/10 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-orange-100/30 rounded-full blur-2xl"></div>
+                <!-- Illustrated Hero Card -->
+                <div class="relative rounded-[2rem] shadow-2xl border-8 border-white bg-gradient-to-br from-farm-light to-white overflow-hidden aspect-[4/3] w-full flex flex-col items-center justify-center p-8 gap-4">
+                    <div class="grid grid-cols-2 gap-4 w-full">
+                        <div class="bg-white rounded-2xl p-5 shadow flex items-center gap-3 border border-earth">
+                            <div class="w-10 h-10 bg-farm-light rounded-xl flex items-center justify-center"><i data-lucide="wheat" class="w-6 h-6 text-farm-dark"></i></div>
+                            <div><p class="text-xs text-slate-400">Harvest</p><p class="font-bold text-slate-800 text-sm">Tomatoes</p></div>
+                        </div>
+                        <div class="bg-white rounded-2xl p-5 shadow flex items-center gap-3 border border-earth">
+                            <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center"><i data-lucide="map-pin" class="w-6 h-6 text-orange-500"></i></div>
+                            <div><p class="text-xs text-slate-400">Status</p><p class="font-bold text-slate-800 text-sm">In Transit</p></div>
+                        </div>
+                        <div class="bg-farm-dark rounded-2xl p-5 shadow flex items-center gap-3">
+                            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center"><i data-lucide="shield-check" class="w-6 h-6 text-white"></i></div>
+                            <div><p class="text-xs text-white/60">Nutri-Score</p><p class="font-bold text-white text-sm">Grade A</p></div>
+                        </div>
+                        <div class="bg-white rounded-2xl p-5 shadow flex items-center gap-3 border border-earth">
+                            <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center"><i data-lucide="heart" class="w-6 h-6 text-blue-500"></i></div>
+                            <div><p class="text-xs text-slate-400">Donated</p><p class="font-bold text-slate-800 text-sm">10 kg</p></div>
+                        </div>
+                    </div>
+                    <div class="w-full bg-farm-accent/10 rounded-xl p-3 flex items-center justify-between border border-farm">
+                        <span class="text-xs font-bold text-farm-dark">🌱 Zero Waste Achieved Today</span>
+                        <span class="text-xs bg-farm-dark text-white rounded-full px-3 py-1 font-bold">Live</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Pillars Section -->
+    <section id="features" class="py-24 bg-earth-light/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Our Three Pillars of Impact</h3>
+                <p class="text-slate-600">From farm logging to consumer intelligence, we've built a cycle that empowers every stakeholder in the food chain.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Pillar 1 -->
+                <div class="feature-card p-10 bg-white rounded-3xl border border-earth transition-all duration-300">
+                    <div class="w-14 h-14 bg-farm-light text-farm-dark rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="scan-face" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-slate-900">Health Intelligence</h4>
+                    <p class="text-slate-600 leading-relaxed mb-6">Instantly scan food items to get real-time nutrition alerts, health scores, and critical allergen information.</p>
+                    <a href="{% url 'scanner_home' %}" class="text-farm-dark font-bold hover:gap-3 flex items-center gap-2 transition-all">Try Scanner <i data-lucide="chevron-right" class="w-4 h-4"></i></a>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="feature-card p-10 bg-white rounded-3xl border border-earth transition-all duration-300">
+                    <div class="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="map-pinned" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-slate-900">Supply Provenance</h4>
+                    <p class="text-slate-600 leading-relaxed mb-6">Track every batch of produce from the soil to the shelf. Log harvests, monitoring transparency and safety at every step.</p>
+                    <a href="{% url 'batch_list' %}" class="text-orange-600 font-bold hover:gap-3 flex items-center gap-2 transition-all">See Provenance <i data-lucide="chevron-right" class="w-4 h-4"></i></a>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="feature-card p-10 bg-white rounded-3xl border border-earth transition-all duration-300">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="refresh-cw" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-slate-900">Zero-Waste Loop</h4>
+                    <p class="text-slate-600 leading-relaxed mb-6">Closing the circle. Redistribute nearing-expiry food to those who need it most, effectively eliminating waste.</p>
+                    <a href="{% url 'listing_list' %}" class="text-blue-600 font-bold hover:gap-3 flex items-center gap-2 transition-all">Join Redistribution <i data-lucide="chevron-right" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works Section -->
+    <section id="how-it-works" class="py-24 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/2">
+                    <h3 class="text-4xl font-black text-slate-900 mb-8 leading-tight">Closing the Loop in <br/><span class="text-farm-accent italic">3 Simple Steps</span></h3>
+                    
+                    <div class="space-y-8 relative">
+                        <div class="absolute left-[27px] top-8 bottom-8 w-0.5 bg-earth/50 hidden sm:block"></div>
+                        
+                        <div class="flex gap-6 relative">
+                            <div class="w-14 h-14 rounded-full bg-farm-dark text-white flex-shrink-0 flex items-center justify-center font-bold text-xl z-10 border-4 border-white">1</div>
+                            <div>
+                                <h5 class="text-xl font-bold text-slate-900 mb-1">Farmers Log Batches</h5>
+                                <p class="text-slate-600">Fresh harvests are logged with location and quality data.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-6 relative">
+                            <div class="w-14 h-14 rounded-full bg-farm-dark text-white flex-shrink-0 flex items-center justify-center font-bold text-xl z-10 border-4 border-white">2</div>
+                            <div>
+                                <h5 class="text-xl font-bold text-slate-900 mb-1">Retailers Scan & Market</h5>
+                                <p class="text-slate-600">Items reach shelves with digital passports for consumers to scan.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-6 relative">
+                            <div class="w-14 h-14 rounded-full bg-farm-dark text-white flex-shrink-0 flex items-center justify-center font-bold text-xl z-10 border-4 border-white">3</div>
+                            <div>
+                                <h5 class="text-xl font-bold text-slate-900 mb-1">Community Redistributes</h5>
+                                <p class="text-slate-600">Surplus items are flagged and shared instead of discarded.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 grid grid-cols-2 gap-4">
+                    <div class="p-8 bg-farm-light rounded-3xl flex flex-col items-center justify-center text-center">
+                        <h6 class="text-4xl font-black text-farm-dark mb-2">10k+</h6>
+                        <p class="text-sm font-bold text-farm-dark/60 uppercase tracking-widest">Items Saved</p>
+                    </div>
+                    <div class="p-8 bg-slate-900 rounded-3xl flex flex-col items-center justify-center text-center text-white">
+                        <h6 class="text-4xl font-black mb-2">500+</h6>
+                        <p class="text-sm font-bold text-white/60 uppercase tracking-widest">Local Farms</p>
+                    </div>
+                    <div class="col-span-2 p-8 bg-earth text-slate-800 rounded-3xl flex items-center justify-between">
+                        <div class="text-left">
+                            <h6 class="text-2xl font-bold mb-1 italic">Reduced CO₂ Footprint</h6>
+                            <p class="text-sm opacity-70 font-medium">By localized distribution</p>
+                        </div>
+                        <i data-lucide="cloud-sun" class="w-12 h-12 opacity-40"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="bg-gradient-to-br from-farm-dark to-slate-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10">
+                    <i data-lucide="leaf" class="absolute -top-10 -left-10 w-48 h-48 rotate-45"></i>
+                    <i data-lucide="leaf" class="absolute -bottom-10 -right-10 w-64 h-64 -rotate-45"></i>
+                </div>
+                <h3 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight relative">Ready to Join the Zero-Waste Future?</h3>
+                <p class="text-white/70 text-lg mb-10 max-w-xl mx-auto relative">Every scan, every log, and every share brings us closer to a healthier planet. Start your journey with AgriLoop today.</p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="inline-flex items-center gap-3 px-10 py-5 bg-farm-accent text-slate-900 rounded-2xl text-xl font-black shadow-2xl hover:scale-105 active:scale-95 transition-all relative">
+                    Go to Dashboard <i data-lucide="sparkles" class="w-6 h-6"></i>
+                </a>
+                {% else %}
+                <a href="{% url 'register' %}" class="inline-flex items-center gap-3 px-10 py-5 bg-farm-accent text-slate-900 rounded-2xl text-xl font-black shadow-2xl hover:scale-105 active:scale-95 transition-all relative">
+                    Join AgriLoop Free <i data-lucide="sparkles" class="w-6 h-6"></i>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-50 border-t border-earth py-20">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
+        <div class="col-span-2">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-farm-dark rounded-xl flex items-center justify-center">
+                    <i data-lucide="leaf" class="text-white w-6 h-6"></i>
+                </div>
+                <span class="text-2xl font-bold text-farm-dark">AgriLoop</span>
+            </div>
+            <p class="text-slate-500 max-w-sm mb-8">Empowering transparency in food systems and eliminating waste through citizen-led intelligence and farmer collaboration.</p>
+            <div class="flex gap-4">
+                <a href="#" class="w-10 h-10 rounded-full bg-white border border-earth flex items-center justify-center text-slate-400 hover:text-farm-dark transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white border border-earth flex items-center justify-center text-slate-400 hover:text-farm-dark transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white border border-earth flex items-center justify-center text-slate-400 hover:text-farm-dark transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+            </div>
+        </div>
+        <div>
+            <h6 class="font-bold mb-6 text-slate-900">Platform</h6>
+            <ul class="space-y-4 text-sm text-slate-500">
+                <li><a href="#" class="hover:text-farm-dark transition-colors">Scanner</a></li>
+                <li><a href="#" class="hover:text-farm-dark transition-colors">Provenance Logs</a></li>
+                <li><a href="#" class="hover:text-farm-dark transition-colors">Marketplace</a></li>
+                <li><a href="#" class="hover:text-farm-dark transition-colors">Impact Reports</a></li>
+            </ul>
+        </div>
+        <div>
+            <h6 class="font-bold mb-6 text-slate-900">Support</h6>
+            <ul class="space-y-4 text-sm text-slate-500">
+                <li><a href="#" class="hover:text-farm-dark transition-colors">Help Center</a></li>
+                <li><a href="#" class="hover:text-farm-dark transition-colors">Partner with Us</a></li>
+                <li><a href="#" class="hover:text-farm-dark transition-colors">Privacy Policy</a></li>
+                <li><a href="#" class="hover:text-farm-dark transition-colors">Terms of Service</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-earth text-center text-xs text-slate-400 font-medium">
+        &copy; 2026 AgriLoop. Built with Leaf & Code. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    
+    // Header Scroll Effect
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+            header.classList.add('py-4', 'shadow-lg');
+            header.classList.remove('py-8');
+        } else {
+            header.classList.remove('py-4', 'shadow-lg');
+            header.classList.add('py-8');
+        }
+    });
+  </script>
+</body>
+</html>

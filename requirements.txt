@@ -1,0 +1,6 @@
+django
+mysqlclient
+requests
+qrcode
+python-dotenv
+Pillow

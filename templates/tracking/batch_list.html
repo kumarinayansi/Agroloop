@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Crops Tracking - AgriFoodHub{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-box-seam text-success"></i> Batch Inventory</h2>
+    {% if user.is_farmer %}
+    <a href="{% url 'batch_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Record New Harvest</a>
+    {% endif %}
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Batch UUID</th>
+                        <th>Crop Name</th>
+                        <th>Harvest Date</th>
+                        <th>Quantity (kg)</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for batch in batches %}
+                    <tr>
+                        <td><code class="small">{{ batch.batch_id|stringformat:"s"|slice:":8" }}...</code></td>
+                        <td><strong><a href="{% url 'batch_detail' batch_id=batch.batch_id %}" class="text-decoration-none text-success">{{ batch.crop_name }}</a></strong> <br><small class="text-muted">{{ batch.variety }}</small></td>
+                        <td>{{ batch.harvest_date }}</td>
+                        <td>{{ batch.quantity_kg }}</td>
+                        <td><span class="badge badge-green">{{ batch.get_current_status_display }}</span></td>
+                        <td>
+                            <a href="{% url 'batch_detail' batch_id=batch.batch_id %}" class="btn btn-sm btn-outline-success">Track</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6" class="text-center py-5 text-muted">No harvested crops found.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

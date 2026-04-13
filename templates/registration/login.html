@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AgriFoodHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/custom.css">
+    <style>
+        body { background-color: var(--primary-green); }
+        .auth-container { max-width: 400px; margin-top: 100px; }
+        .auth-card { padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+<div class="container auth-container">
+    <div class="card auth-card bg-white">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-success"><i class="bi bi-tree-fill"></i> AgriFoodHub</h2>
+            <p class="text-muted">Welcome back! Please login.</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} small">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label small fw-bold">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="mb-4">
+                <label class="form-label small fw-bold">Password</label>
+                {{ form.password }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100 py-2">Sign In</button>
+        </form>
+
+        <div class="text-center mt-4">
+            <p class="small text-muted mb-0">Don't have an account?</p>
+            <a href="{% url 'register' %}" class="text-success text-decoration-none fw-bold">Create Account</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
