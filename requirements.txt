@@ -4,3 +4,5 @@ requests
 qrcode
 python-dotenv
 Pillow
+sqlalchemy
+pydantic
