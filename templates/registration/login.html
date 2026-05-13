@@ -30,6 +30,17 @@
 
         <form method="POST">
             {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="alert alert-danger small">
+                    {% if form.non_field_errors %}
+                        {{ form.non_field_errors }}
+                    {% else %}
+                        Please check your username and password.
+                    {% endif %}
+                </div>
+            {% endif %}
+
             <div class="mb-3">
                 <label class="form-label small fw-bold">Username</label>
                 {{ form.username }}

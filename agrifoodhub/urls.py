@@ -6,10 +6,14 @@ from django.views.generic import RedirectView
 
 from accounts import views as account_views
 
+from django.contrib.auth import views as auth_views
+from accounts.forms import LoginForm
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', account_views.landing_page, name='landing_page'),
     path('dashboard/', account_views.dashboard_view, name='dashboard'),
+    path('auth/login/', auth_views.LoginView.as_view(form_class=LoginForm), name='login'),
     path('auth/', include('django.contrib.auth.urls')), # Move auth to /auth/ to avoid conflict with /accounts/
     path('accounts/', include('accounts.urls')),
     path('tracking/', include('tracking.urls')),

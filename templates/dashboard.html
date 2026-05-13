@@ -146,8 +146,8 @@
     {% if user.is_farmer %}
     <!-- Farmer: Recent Harvests -->
     <div class="col-12">
-        <div class="card h-100 shadow-sm">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center pt-3 px-4">
+        <div class="card h-100 border-0">
+            <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center pt-4 px-4">
                 <h5 class="fw-bold mb-0">Your Recent Harvests</h5>
                 <a href="{% url 'batch_list' %}" class="btn btn-sm btn-success rounded-pill px-3">View Inventory</a>
             </div>
@@ -182,8 +182,8 @@
     {% elif user.is_ngo %}
     <!-- NGO: Available Map + Recent Claims -->
     <div class="col-lg-7">
-        <div class="card h-100 shadow-sm">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <div class="card h-100 border-0">
+            <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center pt-4 px-4">
                 <h5 class="mb-0">Nearby Donations</h5>
                 <a href="{% url 'listing_list' %}" class="btn btn-sm btn-link text-decoration-none">Search Map</a>
             </div>
@@ -210,8 +210,8 @@
         </div>
     </div>
     <div class="col-lg-5">
-        <div class="card h-100 shadow-sm">
-            <div class="card-header bg-white">
+        <div class="card h-100 border-0">
+            <div class="card-header bg-transparent border-0 pt-4 px-4">
                 <h5 class="mb-0">Your Active Claims</h5>
             </div>
             <div class="card-body">
@@ -232,8 +232,8 @@
     {% else %}
     <!-- CONSUMER: Nutrition + Local Surplus Map -->
     <div class="col-lg-12">
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <div class="card border-0 mb-4">
+            <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center pt-4 px-4">
                 <h5 class="mb-0">Surplus Food Near You</h5>
                 <p class="mb-0 small text-muted">Help reduce waste & save money.</p>
             </div>
@@ -249,8 +249,8 @@
     {% if user.role == 'CONSUMER' %}
     <!-- Recent Health Scans -->
     <div class="col-12">
-        <div class="card shadow-sm">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <div class="card border-0">
+            <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center pt-4 px-4">
                 <h5 class="mb-0">Recent Nutrition Scans</h5>
                 <a href="{% url 'scanner_home' %}" class="btn btn-sm btn-success rounded-pill px-3">New Scan</a>
             </div>
